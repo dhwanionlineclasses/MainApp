@@ -88,9 +88,6 @@ export default function ProfileCard() {
   const onProfileSubmit = async (data: UserFormData) => {
     setIsProfileLoading(true);
     try {
-      // Replace with actual API call to PUT /api/v1/profiles
-      console.log("Updating profile:", data);
-
       // Simulate API call
       await updateProfileMutation.mutateAsync(data);
 

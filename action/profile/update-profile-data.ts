@@ -21,7 +21,7 @@ export const updateProfileData = async (values: z.infer<typeof UserSchema>) => {
 
   const session = await decode({
     token: tokens,
-    secret: process.env.AUTH_SECRET!,
+    secret: process.env.NEXT_PUBLIC_AUTH_SECRET!,
     salt: sessionTokenName
   })
 

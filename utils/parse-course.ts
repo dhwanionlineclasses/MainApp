@@ -31,7 +31,8 @@ export type ParsedResponse = {
 
 export type ParsedUserResponse = {
   userId: string,
-  username: string
+  username: string,
+  fullName: string
 }
 
 export function parseResponse(response: UserProfileApiResponseType): ParsedResponse {
