@@ -29,10 +29,21 @@ export type ParsedResponse = {
   };
 };
 
+interface UserProfile {
+  id: string;
+  fullName: string;
+  gender: string;
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+}
+
 export type ParsedUserResponse = {
-  userId: string,
-  username: string,
-  fullName: string
+  userId: number;
+  username: string;
+  email: string;
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  profile: UserProfile;
 }
 
 export function parseResponse(response: UserProfileApiResponseType): ParsedResponse {

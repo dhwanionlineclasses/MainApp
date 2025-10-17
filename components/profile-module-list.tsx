@@ -45,10 +45,10 @@ const ProfileModuleList = () => {
   return (
     <div className="w-full flex flex-col min-h-[92vh] rounded-lg flex justify-start items-start p-4 shadow-sm h-full bg-[#e0c4a4]">
       <div className="w-full border rounded-md px-2 py-1 bg-gradient-to-r from-white-200 to-blue-300 transition-colors duration-300 rounded-lg shadow-xl border bg-muted">
-        <span className="font-semibold text-sm">Welcome, {courses?.user?.fullName || courses?.user?.username || 'Student'}</span>
+        <span className="font-semibold text-sm">Welcome, {courses?.user?.profile?.fullName || courses?.user?.username || 'Student'}</span>
       </div>
       {courses?.data && Object.keys(courses.data).length > 0 ? (
-        <div className="flex flex-col justify-start items-start gap-8 rounded-lg py-1">
+        <div className="flex flex-col justify-start items-start gap-8 rounded-lg py-1 mt-2">
           <CoursesTable data={courses.data} />
         </div>
       ) : (
@@ -81,7 +81,7 @@ const ProfileModuleList = () => {
 
       {/* Dialog for Demo Video */}
       <Dialog open={!!selectedVideo} onOpenChange={() => setSelectedVideo(null)}>
-        <DialogContent className="max-w-[90vw] p-0 overflow-hidden rounded-xl bg-gradient-to-r from-white-200 to-blue-300 transition-colors duration-300 rounded-lg shadow-xl border bg-muted">
+        <DialogContent className="min-w-lg max-w-[90vw] max-h-[90vh] md:w-fit p-0 overflow-hidden rounded-xl bg-gradient-to-r from-white-200 to-blue-300 transition-colors duration-300 rounded-lg shadow-xl border bg-muted">
           {selectedVideo && (
             <>
               <DialogHeader className="p-4 border-b bg-[#f8f4f0]">
