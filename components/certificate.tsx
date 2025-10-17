@@ -8,7 +8,7 @@ type CertificateProps = {
   parentName: string;
   grade: string;
   instrument: string;
-  rollNo: string;
+  rollNo: number;
   date: string;
 };
 
