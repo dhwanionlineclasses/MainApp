@@ -40,80 +40,16 @@ const ProfileModuleList = () => {
     )
   }
 
+  console.log({ courses })
+
   return (
     <div className="w-full flex flex-col min-h-[92vh] rounded-lg flex justify-start items-start p-4 shadow-sm h-full bg-[#e0c4a4]">
-      <div className="w-full border rounded-md px-2 py-1 bg-gradient-to-r from-white-200 to-blue-300 transition-colors duration-300 rounded-lg shadow-xl border bg-muted mb-2">
+      <div className="w-full border rounded-md px-2 py-1 bg-gradient-to-r from-white-200 to-blue-300 transition-colors duration-300 rounded-lg shadow-xl border bg-muted">
         <span className="font-semibold text-sm">Welcome, {courses?.user?.fullName || courses?.user?.username || 'Student'}</span>
       </div>
-      {courses?.data ? (
+      {courses?.data && Object.keys(courses.data).length > 0 ? (
         <div className="flex flex-col justify-start items-start gap-8 rounded-lg py-1">
-          {courses.data ? (
-            <CoursesTable data={courses.data} />
-          ) : (
-            <div className="w-full flex flex-col gap-6">
-              <Skeleton className="h-8 w-full mt-2" /> {/* Title skeleton */}
-              <table className="w-full border-collapse">
-                <thead className="w-full">
-                  <tr>
-                    <th className="p-4 text-left text-muted-foreground/40 font-semibold">
-                      <Skeleton className="h-6 w-1/3" />{" "}
-                      {/* Course Name Skeleton */}
-                    </th>
-                    <th className="p-4 text-left text-muted-foreground/40 font-semibold">
-                      <Skeleton className="h-6 w-1/4" /> {/* Start Skeleton */}
-                    </th>
-                    <th className="p-4 text-left text-muted-foreground/40 font-semibold">
-                      <Skeleton className="h-6 w-1/4" /> {/* Status Skeleton */}
-                    </th>
-                    <th className="p-4 text-left text-muted-foreground/40 font-semibold">
-                      <Skeleton className="h-6 w-1/4" /> {/* Module Skeleton */}
-                    </th>
-                    <th className="p-4 text-left text-muted-foreground/40 font-semibold">
-                      <Skeleton className="h-6 w-1/4" />{" "}
-                      {/* Progress Skeleton */}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="w-full">
-                  {[...Array(5)].map(
-                    (
-                      _,
-                      index // Assuming 5 skeleton rows
-                    ) => (
-                      <tr key={index}>
-                        <td className="p-4 flex justify-start items-center gap-2">
-                          <Skeleton className="h-14 w-14" />{" "}
-                          {/* Image Skeleton */}
-                          <div className="flex flex-col justify-start items-start">
-                            <Skeleton className="h-6 w-3/4" />{" "}
-                            {/* Title Skeleton */}
-                            <Skeleton className="h-4 w-1/2" />{" "}
-                            {/* Subtitle Skeleton */}
-                          </div>
-                        </td>
-                        <td className="p-4">
-                          <Skeleton className="h-4 w-1/4" />{" "}
-                          {/* Start Date Skeleton */}
-                        </td>
-                        <td className="p-4">
-                          <Skeleton className="h-4 w-1/4" />{" "}
-                          {/* Status Skeleton */}
-                        </td>
-                        <td className="p-4">
-                          <Skeleton className="h-4 w-1/4" />{" "}
-                          {/* Module Skeleton */}
-                        </td>
-                        <td className="p-4">
-                          <Skeleton className="h-4 w-1/4" />{" "}
-                          {/* Progress Skeleton */}
-                        </td>
-                      </tr>
-                    )
-                  )}
-                </tbody>
-              </table>
-            </div>
-          )}
+          <CoursesTable data={courses.data} />
         </div>
       ) : (
         <>
@@ -140,9 +76,7 @@ const ProfileModuleList = () => {
               ))}
             </div>
           </div>
-
         </>
-        // <div className="w-full">No Coursed bought yet!</div>
       )}
 
       {/* Dialog for Demo Video */}
