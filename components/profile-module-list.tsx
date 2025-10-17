@@ -131,7 +131,7 @@ const ProfileModuleList = () => {
             {/* Video Cards */}
             <div className="flex flex-wrap gap-2 mb-2">
               {demoVideos.map((video, index) => (
-                <div onClick={() => setSelectedVideo(video)} className="bg-white shadow-md border border-gray rounded-md px-4 py-2 cursor-pointer hover:shadow-xl flex items-center gap-2">
+                <div key={index} onClick={() => setSelectedVideo(video)} className="bg-white shadow-md border border-gray rounded-md px-4 py-2 cursor-pointer hover:shadow-xl flex items-center gap-2">
                   <Video className="w-4 h-4" />
                   <span className="text-xs">
                     {video.course}
