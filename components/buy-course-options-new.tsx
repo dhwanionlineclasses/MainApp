@@ -16,7 +16,8 @@ type course = {
 
 type propsType = {
   course: course,
-  userLastPurchase: any
+  userLastPurchase: any,
+  user: any
 }
 
 interface OrderItem {
@@ -78,7 +79,7 @@ export function getNextIndices(orders?: Order[]) {
 
 
 
-const BuyingOptionsNew = ({ course, userLastPurchase }: propsType) => {
+const BuyingOptionsNew = ({ course, userLastPurchase, user }: propsType) => {
   const [country, setCountry] = useState<string>("DEFAULT");
   const [nextIndices, setNextIndices] = useState({
     nextMonth: 1,
@@ -90,15 +91,9 @@ const BuyingOptionsNew = ({ course, userLastPurchase }: propsType) => {
   useEffect(() => {
     if (userLastPurchase?.data) {
       const nextIndices = getNextIndices(userLastPurchase.data)
-      console.log({ nextIndices })
       setNextIndices(getNextIndices(userLastPurchase.data));
     }
   }, [userLastPurchase]);
-  // const nextIndices = getNextIndices(userLastPurchase?.data);
-
-  // console.log(nextIndices);
-  // { nextMonth: 4, nextModule: 1, nextYear: 1, hasCourse: false }
-
 
   useEffect(() => {
     const fetchLocation = async () => {
@@ -112,6 +107,7 @@ const BuyingOptionsNew = ({ course, userLastPurchase }: propsType) => {
     };
     fetchLocation();
   }, []);
+
   const handleCheckout = async (
     courseName: string,
     plan: string,
@@ -142,13 +138,27 @@ const BuyingOptionsNew = ({ course, userLastPurchase }: propsType) => {
     <div>No pricing available for this course</div>;
   }
 
+  // ✅ Filtered pricing based on user's purchasePlan
+  const filteredPriceModules = (() => {
+    if (!user?.purchasePlan) return coursePricing?.priceModule ?? [];
+
+    const userPlanLower = user.purchasePlan.toLowerCase();
+
+    const filtered = coursePricing?.priceModule.filter((p) =>
+      userPlanLower.includes(p.type.toLowerCase())
+    );
+
+    return filtered && filtered.length > 0 ? filtered : coursePricing?.priceModule ?? [];
+  })();
+
+
   return (
     <div className="w-full flex flex-col justify-start items-start gap-6">
       <Label>Choose Options</Label>
       <Card className="w-full bg-transparent shadow-none border-none mt-6">
         <CardContent className="px-0">
           <div className="w-full grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 justify-items-center gap-x-4 gap-y-6">
-            {coursePricing?.priceModule.map((priceModel, index) => {
+            {filteredPriceModules.map((priceModel, index) => {
               return (
                 <Card
                   key={index}
@@ -184,10 +194,7 @@ const BuyingOptionsNew = ({ course, userLastPurchase }: propsType) => {
                         (priceModel.type === "Course" && nextIndices.hasCourse === true)
                       }
                     >
-                      {/* Display billedType */}
                       {priceModel.billedType}
-
-                      {/* Show plan dynamically */}
                       {priceModel.billedType !== "Full Course" && (
                         <span className="text-xs">
                           (
@@ -244,11 +251,10 @@ const BuyingOptionsNew = ({ course, userLastPurchase }: propsType) => {
                         } else if (priceModel.type === "Year") {
                           planLabel = `${priceModel.type} ${nextIndices.nextYear}`;
                         }
-                        // Course remains as-is
 
                         handleCheckout(
                           course.name,
-                          planLabel,          // dynamic based on next index
+                          planLabel,
                           priceModel.amount,
                           priceModel.type
                         );
@@ -257,8 +263,6 @@ const BuyingOptionsNew = ({ course, userLastPurchase }: propsType) => {
                     >
                       Join Now
                     </Button>
-
-
                   </CardFooter>
                 </Card>
               );

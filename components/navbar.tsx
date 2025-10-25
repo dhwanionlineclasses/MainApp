@@ -144,6 +144,6 @@ const navigation = [
   },
   {
     title: "Contact",
-    href: "/#contact",
+    href: "/legal/contact",
   },
 ];

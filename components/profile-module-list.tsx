@@ -40,7 +40,7 @@ const ProfileModuleList = () => {
     )
   }
 
-  console.log({ courses })
+  // console.log({ courses })
 
   return (
     <div className="w-full flex flex-col min-h-[92vh] rounded-lg flex justify-start items-start p-4 shadow-sm h-full bg-[#e0c4a4]">

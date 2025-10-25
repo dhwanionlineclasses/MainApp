@@ -90,12 +90,12 @@ const Login = () => {
                   <FormItem>
                     <div className="flex items-center">
                       <FormLabel>Password</FormLabel>
-                      {/* <Link
-                        href="/forgot-password"
+                      <Link
+                        href="/auth/forgot-password"
                         className="ml-auto inline-block text-sm underline"
                       >
                         Forgot your password?
-                      </Link> */}
+                      </Link>
                     </div>
                     <FormControl>
                       <Input placeholder="********" {...field} />

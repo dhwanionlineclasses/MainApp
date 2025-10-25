@@ -33,6 +33,28 @@ export interface McqExamResponse {
   success: boolean;
 }
 
+export interface EntranceMcqExamData {
+  examId: number;
+  courseId: number;
+  courseName: string;
+  yearName: string;
+  weekNumber: number;
+  type: string;
+  title: string;
+  description: string;
+  isActive: boolean;
+  totalMarks: number | null;
+  attempts: any[];
+  questions: McqExamQuestion[];
+}
+
+export interface EntranceMcqExamResponse {
+  statusCode: number;
+  data: EntranceMcqExamData;
+  message: string;
+  success: boolean;
+}
+
 export type McqExamSubmitType = {
   examId: number;
   responses: {
@@ -56,6 +78,10 @@ export interface McqExamParams {
   yearId: number;
   weekNumber: number;
   type: string;
+}
+
+export interface EntranceMcqExamParams {
+  courseId: number;
 }
 
 export type McqExamSubmitResponse = {

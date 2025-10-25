@@ -12,6 +12,7 @@ import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { useFullProfileDetails } from "@/data/get-full-profile";
 import { useLastPurchaseDetails } from "@/data/get-last-purchase";
+import Link from "next/link";
 
 
 
@@ -61,6 +62,14 @@ const BuyCourse = () => {
   // Check if next course is available (all previous courses completed)
   const isCourseAvailable = (index: number) => {
     if (index === 0) return true; // first course always available
+    if (index === 1) {
+      const previousCourse = courses[index - 1];
+      return isCourseCompleted(previousCourse.name) || userCourses?.user?.bibhusanActive;
+    }
+    if (index === 2) {
+      const previousCourse = courses[index - 1];
+      return isCourseCompleted(previousCourse.name) || userCourses?.user?.ratnaActive;
+    }
     // previous course
     const previousCourse = courses[index - 1];
     return isCourseCompleted(previousCourse.name);
@@ -98,7 +107,9 @@ const BuyCourse = () => {
                   </Card>
                   {!available && (
                     <span className="text-xs text-red-500">
-                      Finish the previous course before purchasing this one.
+                      Finish Previous Course OR <Link className="underline" href={`/exam/emcq/courses/${index + 1}`}>
+                        Give Entrance Exam
+                      </Link>
                     </span>
                   )}
                 </div>
@@ -108,7 +119,7 @@ const BuyCourse = () => {
         </div>
       </div>
       <div>
-        <BuyingOptionsNew course={selectedCourse} userLastPurchase={userLastPurchase} />
+        <BuyingOptionsNew course={selectedCourse} userLastPurchase={userLastPurchase} user={userCourses?.user} />
       </div>
     </div>
   );
