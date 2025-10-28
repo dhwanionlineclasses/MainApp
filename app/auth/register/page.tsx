@@ -1,6 +1,6 @@
 'use client'
 
-
+import { Eye, EyeOff } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -25,8 +25,8 @@ import { useState } from "react";
 
 
 const SignUp = () => {
-
-  const [ loading, setLoading ] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -41,25 +41,25 @@ const SignUp = () => {
 
     setLoading(true)
 
-    try{
+    try {
       const res = await register(values)
-  
-      if(res.success){
-        toast('Successfully registerd!',{
+
+      if (res.success) {
+        toast('Successfully registerd!', {
           description: 'Please login with your new credentials',
         })
-    
+
         router.push('/auth/login')
       } else {
         console.log(res.message)
-        toast(res.message,{
+        toast(res.message, {
           description: 'Failed to register'
         })
       }
-    }catch(err) {
+    } catch (err) {
       console.log('Error while signup: ', err)
       toast('Something unexpected went wrong!')
-    } finally{
+    } finally {
       setLoading(false)
     }
   }
@@ -74,7 +74,7 @@ const SignUp = () => {
           </p>
         </div>
         <div className="grid gap-4">
-        <Form {...form}>
+          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
               <FormField
                 control={form.control}
@@ -109,10 +109,34 @@ const SignUp = () => {
                   <FormItem>
                     <div className="flex items-center">
                       <FormLabel>Password</FormLabel>
-    
+                      <Link
+                        href="/auth/forgot-password"
+                        className="ml-auto inline-block text-sm underline"
+                      >
+                        Forgot your password?
+                      </Link>
                     </div>
                     <FormControl>
-                      <Input placeholder="********" {...field} />
+                      <div className="relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="********"
+                          {...field}
+                          className="pr-10" // space for the icon
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword((prev) => !prev)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                          tabIndex={-1} // prevents stealing focus
+                        >
+                          {!showPassword ? (
+                            <EyeOff className="h-4 w-4" />
+                          ) : (
+                            <Eye className="h-4 w-4" />
+                          )}
+                        </button>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -60,7 +60,8 @@ export type McqExamSubmitType = {
   responses: {
     questionId: number;
     selectedOptionId: number;
-  }[]
+  }[];
+  link?: string;
 }
 
 export interface McqQuestion {

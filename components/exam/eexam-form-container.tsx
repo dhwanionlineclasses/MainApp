@@ -1,7 +1,7 @@
 "use client";
 
 import { useEntranceMcqQuestionsData } from "@/data/exams/get-entrance-mcq-exam";
-import McqExamForm from "./exam-form";
+import EntranceMcqExamForm from "./eexam-form";
 import { ExamFormValues } from "@/lib/validations/exam";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -107,7 +107,7 @@ export function EntranceExamFormContainer({
 
   return (
     <>
-      <McqExamForm
+      <EntranceMcqExamForm
         examData={examResponse.data.data}
         onSubmit={handleSubmit}
         isSubmitting={isPending}

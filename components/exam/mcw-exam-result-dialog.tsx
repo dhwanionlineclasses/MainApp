@@ -69,8 +69,8 @@ export function McqExamResultDialog({
                   {percentage}%
                 </span>
               </div>
-              <Progress 
-                value={percentage} 
+              <Progress
+                value={percentage}
                 className="h-3"
               />
               <p className="text-sm text-muted-foreground">
@@ -79,8 +79,8 @@ export function McqExamResultDialog({
             </div>
 
             {/* Pass/Fail Status */}
-            <Badge 
-              variant={passed ? "default" : "destructive"} 
+            <Badge
+              variant={passed ? "default" : "destructive"}
               className="text-sm px-4 py-2"
             >
               {passed ? "PASSED" : "FAILED"} - Need {passThreshold}% to pass
@@ -107,6 +107,13 @@ export function McqExamResultDialog({
           <div className="p-4 bg-blue-50 rounded-lg">
             <p className="text-sm text-blue-800">{message}</p>
           </div>
+          {
+            passed && (
+              <div className="p-4 bg-blue-50 rounded-lg">
+                <p className="text-sm text-blue-800">Great job completing the MCQs! Your video submission is now under review, and your final grade will be released once the examiner completes the evaluation.</p>
+              </div>
+            )
+          }
 
           {/* Retry Information */}
           <div className="space-y-3">
