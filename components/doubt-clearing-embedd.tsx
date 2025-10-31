@@ -17,7 +17,7 @@ export default function DoubtClearingEmbedd() {
     <div className="w-full flex justify-center items-center mt-2 overflow-scrolls">
       <Cal
         namespace="doubt"
-        calLink="dhwaniacademy/doubt"
+        calLink="wahtabla/doubt"
         config={{ layout: "month_view", theme: "light" }}
         className="w-full h-full"
       />

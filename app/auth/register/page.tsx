@@ -147,31 +147,6 @@ const SignUp = () => {
               </Button>
             </form>
           </Form>
-          <Button variant='ghost' className="w-full text-muted-foreground pointer-events-none">
-            <Separator className="w-1/3 mx-1" />
-            or continue with
-            <Separator className="w-1/3 mx-1" />
-          </Button>
-
-          <Button
-            variant="outline"
-            className="w-full hover:bg-primary hover:text-white font-semibold cursor-not-allowed"
-          >
-            <Image
-              src="/icons/google.svg"
-              alt="google icon"
-              width={0}
-              height={0}
-              className="w-6 h-6"
-            />
-            <span>Google</span>
-          </Button>
-          {/* <Button
-            variant="outline"
-            className="w-full font-semibold hover:bg-primary hover:text-white"
-          >
-            Apple
-          </Button> */}
           <div className="text-sm text-muted-foreground text-center">
             By clicking continue, you agree to our{" "}
             <Link href="#" className="underline underline-offset-2 hover:text-black">

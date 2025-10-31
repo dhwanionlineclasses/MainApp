@@ -76,14 +76,24 @@ export default function EntranceMcqExamForm({
   });
 
   const watchedAnswers = form.watch("answers");
-  const answeredCount = Object.keys(watchedAnswers).length;
+  
+  const answeredCount = Object.entries(watchedAnswers).filter(
+     ([_, value]) => value !== undefined && value !== null && value !== "" && String(value).trim() !== ""
+  ).length;
+
   const progressPercentage = (answeredCount / sortedQuestions.length) * 100;
   const currentQuestion = sortedQuestions[currentQuestionIndex];
+
+  const isQuestionAnswered = (questionId: number) => {
+    const answer = watchedAnswers[questionId.toString()];
+    // return !!(answer && answer.trim() !== "");
+    return answer !== undefined && answer !== null && answer.trim() !== "";
+  };
 
   const handleSubmit = (data: ExamFormValues) => {
     // Check if all questions are answered
     const unansweredQuestions = sortedQuestions.filter(
-      (q) => !data.answers[q.questionId.toString()]
+      (q) => !isQuestionAnswered(q.questionId)
     );
 
     if (unansweredQuestions.length > 0) {
@@ -97,12 +107,12 @@ export default function EntranceMcqExamForm({
     }
 
     // Transform data to the required format
-    const submissionData = Object.entries(data.answers).map(
-      ([questionId, optionId]) => ({
+    const submissionData = Object.entries(data.answers)
+      .filter(([_, optionId]) => optionId !== undefined && optionId !== null && optionId !== "" && String(optionId).trim() !== "")
+      .map(([questionId, optionId]) => ({
         questionId: parseInt(questionId),
         selectedOptionId: parseInt(optionId),
-      })
-    );
+      }));
 
     // console.log("Submission data:", submissionData);
 
@@ -129,10 +139,6 @@ export default function EntranceMcqExamForm({
 
   const goToQuestion = (index: number) => {
     setCurrentQuestionIndex(index);
-  };
-
-  const isQuestionAnswered = (questionId: number) => {
-    return !!watchedAnswers[questionId.toString()];
   };
 
   const getUnansweredQuestions = () => {
@@ -276,6 +282,7 @@ export default function EntranceMcqExamForm({
                 <FormField
                   control={form.control}
                   name={`answers.${currentQuestion?.questionId}`}
+                  key={currentQuestion?.questionId}
                   render={({ field }) => (
                     <FormItem className="space-y-4">
                       <FormControl>
@@ -332,7 +339,7 @@ export default function EntranceMcqExamForm({
                             ))}
                         </RadioGroup>
                       </FormControl>
-                      {showValidationErrors && !field.value && (
+                      {showValidationErrors && !isQuestionAnswered(currentQuestion?.questionId) && (
                         <Alert variant="destructive">
                           <AlertCircle className="h-4 w-4" />
                           <AlertDescription>
