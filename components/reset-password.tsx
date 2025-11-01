@@ -19,12 +19,16 @@ import { resetPassword } from "@/action/auth/resetPassword";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
+
 
 const ResetPassword = () => {
   const searchParams = useSearchParams();
   const token = searchParams?.get("token");
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false); // ✅ track success
+  const [success, setSuccess] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
 
   const form = useForm<z.infer<typeof resetPasswordSchema>>({
     resolver: zodResolver(resetPasswordSchema),
@@ -101,11 +105,26 @@ const ResetPassword = () => {
                       <FormItem>
                         <FormLabel>New Password</FormLabel>
                         <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="Enter new password"
-                            {...field}
-                          />
+                          <div className="relative">
+                            <Input
+                              type={showPassword ? "text" : "password"}
+                              placeholder="********"
+                              {...field}
+                              className="pr-10" // space for the icon
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword((prev) => !prev)}
+                              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                              tabIndex={-1} // prevents stealing focus
+                            >
+                              {!showPassword ? (
+                                <EyeOff className="h-4 w-4" />
+                              ) : (
+                                <Eye className="h-4 w-4" />
+                              )}
+                            </button>
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
