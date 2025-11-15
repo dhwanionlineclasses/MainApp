@@ -1,5 +1,6 @@
 "use client";
 
+import useRazorpay from "react-razorpay";
 import { Label } from "@radix-ui/react-label";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 import { useEffect, useState } from "react";
@@ -7,6 +8,8 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import { pricing } from "@/data/constants/pricing-checkout";
 import { createStripeCheckoutSession } from "@/action/stripe-checkout";
+import { metadata } from "@/app/layout";
+import { useRouter } from "next/navigation";
 
 type course = {
   id: number;
@@ -80,6 +83,9 @@ export function getNextIndices(orders?: Order[]) {
 
 
 const BuyingOptionsNew = ({ course, userLastPurchase, user }: propsType) => {
+  const base_url = process.env.NEXT_PUBLIC_BACKEND_URL!
+  const router = useRouter();
+
   const [country, setCountry] = useState<string>("DEFAULT");
   const [nextIndices, setNextIndices] = useState({
     nextMonth: 1,
@@ -108,7 +114,8 @@ const BuyingOptionsNew = ({ course, userLastPurchase, user }: propsType) => {
     fetchLocation();
   }, []);
 
-  const handleCheckout = async (
+
+  const stripeCheckout = async (
     courseName: string,
     plan: string,
     amount: number,
@@ -126,6 +133,96 @@ const BuyingOptionsNew = ({ course, userLastPurchase, user }: propsType) => {
         window.location.href = res.url; // Redirect to Stripe Checkout
       } else {
         console.error("Error creating checkout session:", res.message);
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+    }
+  }
+
+  const createOrderId = async (amount: number, currency?: string) => {
+    try {
+      const response = await fetch(`${base_url}/createOrderId`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: amount,
+          currency: currency || 'INR',
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      return data.orderId;
+    } catch (error) {
+      console.error('There was a problem with your fetch operation:', error);
+    }
+  };
+
+
+  const handleCheckout = async (
+    courseName: string,
+    plan: string,
+    amount: number,
+    type: string
+  ) => {
+    try {
+      if (country === 'IN') {
+        const orderId: string = await createOrderId(amount, 'INR');
+        const options = {
+          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
+          amount: amount,
+          currency: 'INR',
+          name: 'Wah Tabla',
+          order_id: orderId,
+          handler: async function (response: any) {
+            const data = {
+              orderCreationId: orderId,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpayOrderId: response.razorpay_order_id,
+              razorpaySignature: response.razorpay_signature,
+              amount: amount,
+              metadata: {
+                courseName: courseName,
+                plan: plan,
+                type: type,
+                email: user?.email,
+                username: user?.username,
+                userId: user?.id
+              }
+            };
+
+            const result = await fetch(`${base_url}/verifyPayment`, {
+              method: 'POST',
+              body: JSON.stringify(data),
+              headers: { 'Content-Type': 'application/json' },
+            });
+            const res = await result.json();
+            if (res.success) {
+              router.push('/profile');
+            } else {
+              alert(res.message);
+            }
+          },
+          prefill: {
+            name: user?.username,
+            email: user?.email,
+          },
+          theme: {
+            color: '#3399cc',
+          },
+        };
+        const paymentObject = new (window as any).Razorpay(options);
+        paymentObject.on('payment.failed', function (response: any) {
+          alert(response.error.description);
+        });
+        paymentObject.open();
+      } else {
+        await stripeCheckout(courseName, plan, amount, type);
       }
     } catch (error) {
       console.error("Checkout error:", error);
@@ -211,18 +308,23 @@ const BuyingOptionsNew = ({ course, userLastPurchase, user }: propsType) => {
                       {priceModel.originalPrice && priceModel.save && (
                         <span className="flex flex-col justify-center items-center text-white opacity-60">
                           <span className="line-through">
-                            ${priceModel.originalPrice}
+                            {
+                              country === "IN" ? "₹" : "$"
+                            }
+                            {priceModel.originalPrice}
                           </span>
                           <span className="text-xs">
-                            You save ${priceModel.save}
+                            You save {
+                              country === "IN" ? "₹" : "$"
+                            } {priceModel.save}
                           </span>
                         </span>
                       )}
                       <span className="drop-shadow-3xl">
                         <span className="text-4xl font-semibold">
-                          {country === "IN"
-                            ? priceModel.priceIn
-                            : `${priceModel.priceDefault}`}
+                          {
+                            country === "IN" ? "₹" : "$"
+                          } {priceModel.amount / 100}
                         </span>
                         {priceModel.type !== "Course" && (
                           <span className="lowercase text-base">

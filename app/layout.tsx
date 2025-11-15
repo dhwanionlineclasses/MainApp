@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import Providers from "./providers";
 import ClientLayout from "./client-layout";
+import Script from "next/script"; 
 
 export const metadata: Metadata = {
   title: "Wah Tabla - Learn Music Online from Experts",
@@ -28,6 +29,10 @@ export default function RootLayout({
           {/* 🔽 Wrap all client logic inside a client layout */}
           <ClientLayout>{children}</ClientLayout>
         </Providers>
+        <Script
+          id="razorpay-checkout-js"
+          src="https://checkout.razorpay.com/v1/checkout.js"
+        />
       </body>
     </html>
   );

@@ -11,13 +11,13 @@ export default function dashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="w-full h-screen">
-      <SidebarProvider>
-        <ProfileSidebar />
-        <SidebarInset>
-          {children}
-        </SidebarInset>
-      </SidebarProvider>
-    </div>
+      <div className="w-full h-screen">
+        <SidebarProvider>
+          <ProfileSidebar />
+          <SidebarInset>
+            {children}
+          </SidebarInset>
+        </SidebarProvider>
+      </div>
   );
 }
