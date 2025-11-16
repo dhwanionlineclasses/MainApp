@@ -36,7 +36,7 @@ export function NavUser() {
   const { data: profileData, isError, isPending, error } = useProfileData();
 
   if (isPending) {
-    console.log("Loding your profile data.");
+    console.log("Loading your profile data...");
   }
   if (isError) {
     console.log("Error: ", error);

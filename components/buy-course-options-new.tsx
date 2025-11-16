@@ -23,63 +23,6 @@ type propsType = {
   user: any
 }
 
-interface OrderItem {
-  itemType: "Month" | "Module" | "Year" | "Course";
-  itemName: string; // like "Month 1", "Module 2"
-}
-
-interface Order {
-  orderId: number;
-  orderItems: OrderItem[];
-  // other fields not needed here
-}
-
-export function getNextIndices(orders?: Order[]) {
-  if (!orders || orders.length === 0) {
-    return {
-      nextMonth: 1,
-      nextModule: 1,
-      nextYear: 1,
-      hasCourse: false,
-    };
-  }
-
-  let maxMonth = 0;
-  let maxModule = 0;
-  let maxYear = 0;
-  let hasCourse = false;
-
-  orders.forEach((order) => {
-    order.orderItems?.forEach((item) => {
-      if (item.itemType === "Month") {
-        const match = item.itemName.match(/Month (\d+)/);
-        if (match) maxMonth = Math.max(maxMonth, parseInt(match[1], 10));
-      }
-
-      if (item.itemType === "Module") {
-        const match = item.itemName.match(/Module (\d+)/);
-        if (match) maxModule = Math.max(maxModule, parseInt(match[1], 10));
-      }
-
-      if (item.itemType === "Year") {
-        const match = item.itemName.match(/Year (\d+)/);
-        if (match) maxYear = Math.max(maxYear, parseInt(match[1], 10));
-      }
-
-      if (item.itemType === "Course") {
-        hasCourse = true;
-      }
-    });
-  });
-
-  return {
-    nextMonth: maxMonth > 0 ? maxMonth + 1 : 1,
-    nextModule: maxModule > 0 ? maxModule + 1 : 1,
-    nextYear: maxYear > 0 ? maxYear + 1 : 1,
-    hasCourse,
-  };
-}
-
 
 
 const BuyingOptionsNew = ({ course, userLastPurchase, user }: propsType) => {
@@ -95,11 +38,11 @@ const BuyingOptionsNew = ({ course, userLastPurchase, user }: propsType) => {
   });
 
   useEffect(() => {
-    if (userLastPurchase?.data) {
-      const nextIndices = getNextIndices(userLastPurchase.data)
-      setNextIndices(getNextIndices(userLastPurchase.data));
+    if (userLastPurchase?.next) {
+      setNextIndices(userLastPurchase.next);
     }
   }, [userLastPurchase]);
+
 
   useEffect(() => {
     const fetchLocation = async () => {

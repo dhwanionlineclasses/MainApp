@@ -49,6 +49,12 @@ export type ParsedUserResponse = {
   bibhusanActive?: boolean;
   ratnaActive?: boolean;
 }
+export type ParsedNextResponse = {
+  nextMonth: number;
+  nextModule: number;
+  nextYear: number;
+  hasCourse: boolean
+}
 
 export function parseResponse(response: UserProfileApiResponseType): ParsedResponse {
   const parsed: ParsedResponse = {};

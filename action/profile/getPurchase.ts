@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { decode } from "next-auth/jwt";
 import { RequestInit } from "next/dist/server/web/spec-extension/request";
-import { ParsedResponse, ParsedUserResponse, parseResponse } from "@/utils/parse-course";
+import { ParsedNextResponse, ParsedUserResponse, parseResponse } from "@/utils/parse-course";
 
 const sessionTokenName =
   process.env.NODE_ENV === 'production'
@@ -54,14 +54,15 @@ export const getPurchase = async () => {
 
     const response = await fetch(`${baseUrl}/profiles/getLastPurchase`, options)
     const data = await response.json()
+    console.log({ data })
+
 
     if (response.status === 200) {
 
       return {
         success: true,
         message: 'Successfully recieved user data',
-        data: data.orders as any,
-        user: data.user as ParsedUserResponse
+        next: data.next as ParsedNextResponse
       }
     } else {
       return { success: false, message: data.message || 'Profile Fetching failed' }
