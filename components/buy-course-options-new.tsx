@@ -8,7 +8,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import { pricing } from "@/data/constants/pricing-checkout";
 import { createStripeCheckoutSession } from "@/action/stripe-checkout";
-import { metadata } from "@/app/layout";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 type course = {
@@ -157,7 +157,7 @@ const BuyingOptionsNew = ({ course, userLastPurchase, user }: propsType) => {
       }
 
       const data = await response.json();
-      return data.orderId;
+      return data.id;
     } catch (error) {
       console.error('There was a problem with your fetch operation:', error);
     }
@@ -185,9 +185,9 @@ const BuyingOptionsNew = ({ course, userLastPurchase, user }: propsType) => {
               razorpayPaymentId: response.razorpay_payment_id,
               razorpayOrderId: response.razorpay_order_id,
               razorpaySignature: response.razorpay_signature,
-              amount: amount,
               metadata: {
-                courseName: courseName,
+                amount: amount,
+                course: courseName,
                 plan: plan,
                 type: type,
                 email: user?.email,
@@ -205,7 +205,7 @@ const BuyingOptionsNew = ({ course, userLastPurchase, user }: propsType) => {
             if (res.success) {
               router.push('/profile');
             } else {
-              alert(res.message);
+              toast.error(res.message);
             }
           },
           prefill: {
@@ -309,22 +309,21 @@ const BuyingOptionsNew = ({ course, userLastPurchase, user }: propsType) => {
                         <span className="flex flex-col justify-center items-center text-white opacity-60">
                           <span className="line-through">
                             {
-                              country === "IN" ? "₹" : "$"
+                              country === "IN" ? `₹${priceModel.originalPriceIn / 100}` : `$${priceModel.originalPrice / 100}`
                             }
-                            {priceModel.originalPrice}
                           </span>
                           <span className="text-xs">
                             You save {
-                              country === "IN" ? "₹" : "$"
-                            } {priceModel.save}
+                              country === "IN" ? `₹${priceModel.saveIn}` : `$${priceModel.save}`
+                            }
                           </span>
                         </span>
                       )}
                       <span className="drop-shadow-3xl">
                         <span className="text-4xl font-semibold">
                           {
-                            country === "IN" ? "₹" : "$"
-                          } {priceModel.amount / 100}
+                            country === "IN" ? `₹${priceModel.amountIn / 100}` : `$${priceModel.amount / 100}`
+                          }
                         </span>
                         {priceModel.type !== "Course" && (
                           <span className="lowercase text-base">

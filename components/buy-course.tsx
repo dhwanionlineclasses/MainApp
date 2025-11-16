@@ -64,7 +64,6 @@ const BuyCourse = () => {
     if (index === 0) return true; // first course always available
     if (index === 1) {
       const previousCourse = courses[index - 1];
-      console.log(userCourses?.user?.bibhusanActive);
       return isCourseCompleted(previousCourse.name) || userCourses?.user?.bibhusanActive;
     }
     if (index === 2) {
@@ -87,7 +86,6 @@ const BuyCourse = () => {
           >
             {courses.map((course, index) => {
               const available = isCourseAvailable(index);
-              console.log({ available, index });
               return (
                 <div key={index} className="flex flex-col gap-1">
                   <Card

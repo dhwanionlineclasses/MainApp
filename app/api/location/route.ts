@@ -6,7 +6,6 @@ export async function GET(req: Request) {
       req.headers.get("x-real-ip") ||
       null;
 
-    console.log("Client IP:", ip);
 
     // Handle localhost (ipinfo cannot geolocate ::1 or 127.0.0.1)
     const ipOrAuto = (!ip || ip === "::1" || ip === "127.0.0.1")
