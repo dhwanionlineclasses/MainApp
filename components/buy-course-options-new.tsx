@@ -356,7 +356,7 @@ const BuyingOptionsNew = ({ course, userLastPurchase, user }: propsType) => {
                         handleCheckout(
                           course.name,
                           planLabel,
-                          priceModel.amount,
+                          country === "IN" ? priceModel.amountIn : priceModel.amount,
                           priceModel.type
                         );
                       }}
