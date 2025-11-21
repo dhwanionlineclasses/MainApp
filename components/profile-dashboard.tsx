@@ -2,13 +2,13 @@
 
 import React from 'react';
 import { useProfileData } from '@/data/get-profile-data';
-import { 
-  User, 
-  BookOpen, 
-  CheckCircle, 
-  XCircle, 
-  Clock, 
-  Eye, 
+import {
+  User,
+  BookOpen,
+  CheckCircle,
+  XCircle,
+  Clock,
+  Eye,
   Calendar,
   Award,
   TrendingUp,
@@ -77,14 +77,15 @@ const ProfileDashboard = () => {
   const finalExams = getExamsByType('final');
 
 
+
   interface StatCardProps {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  value: number | string;
-  subtitle: string;
-  color: string;
-  bgColor: string;
-}
+    icon: React.ComponentType<{ className?: string }>;
+    title: string;
+    value: number | string;
+    subtitle: string;
+    color: string;
+    bgColor: string;
+  }
 
 
   const StatCard: React.FC<StatCardProps> = ({ icon: Icon, title, value, subtitle, color, bgColor }) => (
@@ -103,18 +104,18 @@ const ProfileDashboard = () => {
   );
 
   interface ExamCardProps {
-  exam: {
-    examId: number;
-    title: string;
-    type: 'mcq' | 'assignment' | 'final';
-    cleared: boolean;
-    attempts: number;
-    review: boolean;
-    failed: boolean;
-    marks: number | null;
-  };
-  variant?: 'failed' | 'review' | 'cleared' | 'default';
-}
+    exam: {
+      examId: number;
+      title: string;
+      type: 'mcq' | 'assignment' | 'final';
+      cleared: boolean;
+      attempts: number;
+      review: boolean;
+      failed: boolean;
+      marks: number | null;
+    };
+    variant?: 'failed' | 'review' | 'cleared' | 'default';
+  }
 
 
   const ExamCard: React.FC<ExamCardProps> = ({ exam, variant = 'default' }) => {
@@ -217,7 +218,7 @@ const ProfileDashboard = () => {
             </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
-            <div 
+            <div
               className="bg-gradient-to-r from-indigo-500 to-purple-600 h-3 rounded-full transition-all duration-300"
               style={{ width: `${progress.total > 0 ? (progress.cleared / progress.total) * 100 : 0}%` }}
             ></div>
@@ -327,17 +328,58 @@ const ProfileDashboard = () => {
             Courses Overview
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {profileData?.courses.map((course) => (
-              <div key={course.courseId} className="border border-gray-200 rounded-lg p-4">
-                <h4 className="font-medium text-gray-900 mb-2">{course.courseName}</h4>
-                <div className="text-sm text-gray-600">
-                  <p>{course.years.length} year{course.years.length !== 1 ? 's' : ''}</p>
-                  <p>
-                    {course.years.reduce((acc, year) => acc + year.modules.length, 0)} modules
-                  </p>
-                </div>
-              </div>
-            ))}
+            {
+              Object.values(profileData?.orders || {})?.length === 0 ? (
+                <div>No courses enrolled yet.</div>
+              ) : (
+                Object.values(profileData?.orders || {}).map((course: any, i: number) => {
+                  const totalYears = course.years?.length || 0;
+
+                  const totalModules = course.years?.reduce(
+                    (sum: number, year: any) => sum + (year.modules?.length || 0),
+                    0
+                  );
+
+                  const totalMonths = course.years?.reduce(
+                    (sumY: number, year: any) =>
+                      sumY +
+                      year.modules?.reduce(
+                        (sumM: number, mod: any) => sumM + (mod.months?.length || 0),
+                        0
+                      ),
+                    0
+                  );
+
+                  const totalVideos = course.years?.reduce(
+                    (sumY: number, year: any) =>
+                      sumY +
+                      year.modules?.reduce(
+                        (sumM: number, mod: any) =>
+                          sumM +
+                          mod.months?.reduce(
+                            (sumV: number, month: any) => sumV + (month.videos?.length || 0),
+                            0
+                          ),
+                        0
+                      ),
+                    0
+                  );
+
+                  return (
+                    <div key={i} className="p-3 rounded border text-xs">
+                      <h2 className="font-bold text-sm w-fit">Course: DHWANI {course.courseName}</h2>
+
+                      <div className="grid grid-cols-2 mt-2">
+                        <p>• Years: {totalYears}</p>
+                        <p>• Modules: {totalModules}</p>
+                        <p>• Months: {totalMonths}</p>
+                        <p>• Videos: {totalVideos}</p>
+                      </div>
+                    </div>
+                  );
+                })
+              )
+            }
           </div>
         </div>
       </div>

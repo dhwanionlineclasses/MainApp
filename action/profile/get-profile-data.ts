@@ -62,7 +62,8 @@ export const getProfileData = async (): Promise<ProfileDataResponse> => {
           email: data.user.email,
           fullName: data.user.profile ? data.user.profile.fullName : undefined,
           gender: data.user.profile ? data.user.profile.gender : undefined,
-          courses: data.courses
+          courses: data.courses,
+          orders: data.orders
         }
       }
     } else {

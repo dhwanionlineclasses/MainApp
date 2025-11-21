@@ -56,6 +56,7 @@ export interface Course {
 export interface BackendProfileResponse {
   user: User;
   courses: Course[];
+  orders: any; // Define order structure if needed
 }
 
 export interface ProfileDataResponse {
@@ -68,5 +69,6 @@ export interface ProfileDataResponse {
     fullName?: string;
     gender?: 'male' | 'female';
     courses: Course[];
+    orders: any; // Define order structure if needed
   };
 }
