@@ -30,12 +30,7 @@ const BuyingOptionsNew = ({ course, userLastPurchase, user }: propsType) => {
   const router = useRouter();
 
   const [country, setCountry] = useState<string>("DEFAULT");
-  const [nextIndices, setNextIndices] = useState(userLastPurchase?.next || {
-    nextMonth: 1,
-    nextModule: 1,
-    nextYear: 1,
-    hasCourse: false
-  });
+  const [nextIndices, setNextIndices] = useState(userLastPurchase?.next);
 
 
   useEffect(() => {

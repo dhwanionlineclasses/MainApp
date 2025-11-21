@@ -75,10 +75,36 @@ const BuyCourse = () => {
     return isCourseCompleted(previousCourse.name);
   };
 
+  if (!userCourses || !userLastPurchase) {
+    return (
+      <div className="w-full flex justify-center items-center">
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full p-5 rounded-md h-full">
+      <div className="mb-8 p-2 rounded-md bg-gradient-to-r from-white-200 to-blue-300 transition-colors duration-300 rounded-lg shadow-xl border bg-muted">
+        {/* Intro Section */}
+        <div className="text-left mb-4">
+          <h2 className="font-semibold text-md mb-1">Important Payment Notice</h2>
+          <p className="text-xs">
+            For consistency and smooth access management, the payment method you choose for your
+            first purchase will remain the same for the rest of the year.
+          </p>
+          <ul className="list-disc ml-4 mt-1 text-xs">
+            <li>If you purchase <strong>module-wise</strong>, future payments will also follow the same module-wise format.</li>
+            <li>If you select a <strong>monthly</strong>, <strong>yearly</strong>, or <strong>full-course</strong> plan, all upcoming renewals or upgrades will continue in that same model.</li>
+          </ul>
+          <p className="mt-1 text-xs">
+            This helps us ensure accurate progress tracking and uninterrupted access to your learning journey.
+          </p>
+        </div>
+
+      </div>
       <div className="w-full flex justify-center items-center gap-6">
-        <div className="w-full flex flex-col justify-start items-start gap-2 py-10 pt-6">
+        <div className="w-full flex flex-col justify-start items-start gap-2 py-5 pt-6">
           <Label>Select Course</Label>
           <RadioGroup
             value={selectedCourse.name}
@@ -118,6 +144,8 @@ const BuyCourse = () => {
           </RadioGroup>
         </div>
       </div>
+
+
       <div>
         <BuyingOptionsNew course={selectedCourse} userLastPurchase={userLastPurchase} user={userCourses?.user} />
       </div>
