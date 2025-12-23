@@ -13,7 +13,9 @@ export const pricingModel = [
       'Flexible and concise, catering to busy schedules.',
       'A great introduction to the course\'s teaching style and content.',
       'Enabling probability to become an accredited teacher of Dhwani Academy.'
-    ]
+    ],
+    originalPrice: '330',
+    originalPriceIn: '330',
   },
   {
     plan: 'Month Wise',
@@ -26,7 +28,9 @@ export const pricingModel = [
       'Encourages disciplined weekly practice.',
       'Affordable and easy to renew, suited for beginners.',
       'Allows exploration of classical music without long-term commitment.'
-    ]
+    ],
+    originalPrice: '120',
+    originalPriceIn: '120',
   },
   {
     plan: 'Year Wise',
@@ -39,7 +43,9 @@ export const pricingModel = [
       'Encourages learners to master techniques over time.',
       'Cost-effective for dedicated students seeking value.',
       'Comprehensive enough to cover significant progress in classical music.'
-    ]
+    ],
+    originalPrice: '1200',
+    originalPriceIn: '1200',
   },
   {
     plan: 'Full Course',
@@ -53,6 +59,8 @@ export const pricingModel = [
       'Flexible access throughout the duration to revisit lessons.',
       'Ideal for building a strong foundation and advanced expertise.',
       'Focused to complete the whole curriculum sooner to achieve the desired goal.'
-    ]
+    ],
+    originalPrice: '2200',
+    originalPriceIn: '2200',
   },
 ]

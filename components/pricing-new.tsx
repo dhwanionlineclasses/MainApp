@@ -17,12 +17,6 @@ const PricingNew = () => {
   const [country, setCountry] = useState<string>("DEFAULT");
 
   useEffect(() => {
-    // const fetchLocation = async () => {
-    //   const location = await getUserLocation();
-    //   setCountry(location.country);
-
-    // };
-
     const fetchLocation = async () => {
       try {
         const response = await fetch("/api/location");
@@ -61,16 +55,16 @@ const PricingNew = () => {
                         <span className="text-5xl font-semibold flex flex-col justify-start items-center">
                           <span className="text-sm">{priceModel.unit}</span>
                           {country === "IN"
-                            ? priceModel.priceIn
-                            : `${priceModel.priceDefault}`}
+                            ? `₹ ${priceModel.originalPriceIn}`
+                            : `$ ${priceModel.originalPrice}`}
                         </span>
                       </span>
                     ) : (
                       <span className="drop-shadow-3xl">
                         <span className="text-5xl font-semibold">
                           {country === "IN"
-                            ? priceModel.priceIn
-                            : `${priceModel.priceDefault}`}
+                            ? `₹ ${priceModel.originalPriceIn}`
+                            : `$ ${priceModel.originalPrice}`}
                           <span className="text-sm">{priceModel.unit}</span>
                         </span>
                       </span>
