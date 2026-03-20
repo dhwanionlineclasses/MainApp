@@ -45,7 +45,7 @@ export const pricingModel = [
       'Comprehensive enough to cover significant progress in classical music.'
     ],
     originalPrice: '1200',
-    originalPriceIn: '1,6000',
+    originalPriceIn: '16000',
   },
   {
     plan: 'Full Course',
