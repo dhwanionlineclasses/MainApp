@@ -5,7 +5,7 @@ export const pricingModel = [
     plan: 'Module Wise',
     unit: '/module',
     priceDefault: '$330',
-    priceIn: 'Rs 330',
+    priceIn: 'Rs 30,900',
     features: [
       'Access to one 3-month module containing 12 weekly lessons.',
       'Focused learning on a specific part of the curriculum.',
@@ -15,13 +15,13 @@ export const pricingModel = [
       'Enabling probability to become an accredited teacher of Dhwani Academy.'
     ],
     originalPrice: '330',
-    originalPriceIn: '330',
+    originalPriceIn: '30,900',
   },
   {
     plan: 'Month Wise',
     unit: '/month',
     priceDefault: '$120',
-    priceIn: 'Rs 120',
+    priceIn: 'Rs 11,200',
     features: [
       'Gain access to 4 weekly lessons each month.',
       'Ideal for incremental progress with bite-sized learning.',
@@ -30,13 +30,13 @@ export const pricingModel = [
       'Allows exploration of classical music without long-term commitment.'
     ],
     originalPrice: '120',
-    originalPriceIn: '120',
+    originalPriceIn: '11,200',
   },
   {
     plan: 'Year Wise',
-    unit: '/year',
+    unit: '',
     priceDefault: '$1200',
-    priceIn: 'Rs 1200',
+    priceIn: 'Rs 1,12,000',
     features: [
       'Includes 48 lessons spread across a structured year-long curriculum.',
       'Facilitates consistent learning for deeper understanding.',
@@ -45,13 +45,13 @@ export const pricingModel = [
       'Comprehensive enough to cover significant progress in classical music.'
     ],
     originalPrice: '1200',
-    originalPriceIn: '1200',
+    originalPriceIn: '1,12,000',
   },
   {
     plan: 'Full Course',
     unit: 'starting from',
     priceDefault: '$2200',
-    priceIn: 'Rs 2200',
+    priceIn: 'Rs 2,00,080',
     features: [
       'Complete access to all course lessons.',
       'Covers the entire curriculum from basics to advanced skills.',
@@ -61,6 +61,6 @@ export const pricingModel = [
       'Focused to complete the whole curriculum sooner to achieve the desired goal.'
     ],
     originalPrice: '2200',
-    originalPriceIn: '2200',
+    originalPriceIn: '2,00,080',
   },
 ]
